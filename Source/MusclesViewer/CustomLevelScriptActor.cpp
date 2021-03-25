@@ -8,7 +8,7 @@ void ACustomLevelScriptActor::BeginPlay()
     Super::BeginPlay();
     UE_LOG(LogTemp, Warning, TEXT("Some warning message"));
 
-    APlayerController* MyController = GetWorld()->GetFirstPlayerController();
+    MyController = UGameplayStatics::GetPlayerController(this, 0);
 
     MyController->bShowMouseCursor = true;
     MyController->bEnableClickEvents = true;
@@ -17,7 +17,6 @@ void ACustomLevelScriptActor::BeginPlay()
 
 void ACustomLevelScriptActor::ShowBone() {
     UE_LOG(LogTemp, Warning, TEXT("ShowBone"));
-
-    APlayerController* MyController = GetWorld()->GetFirstPlayerController();
-    
+    FHitResult Hit;
+    MyController -> GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, Hit);
 }

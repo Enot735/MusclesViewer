@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/LevelScriptActor.h"
-
+#include "Kismet/GameplayStatics.h"
 #include "CustomLevelScriptActor.generated.h"
 
 /**
@@ -17,7 +17,8 @@ class MUSCLESVIEWER_API ACustomLevelScriptActor : public ALevelScriptActor
 
 	void BeginPlay();
 
-
+private:
+    APlayerController* MyController;
 public:
 	UFUNCTION(BlueprintCallable)
 	void ShowBone();
