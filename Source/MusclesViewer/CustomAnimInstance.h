@@ -6,6 +6,7 @@
 #include "Animation/AnimInstance.h"
 #include "UObject/WeakObjectPtrTemplates.h"
 #include "CustomCharacter.h"
+#include "C:/Program Files/Epic Games/UE_4.26/Engine/Source/Editor/AnimGraph/Classes/AnimGraphNode_ModifyBone.h"
 
 #include "CustomAnimInstance.generated.h"
 
