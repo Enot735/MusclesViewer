@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
+#include "Engine/EngineTypes.h"
 #include "CustomCharacter.generated.h"
 
 UCLASS()
@@ -28,7 +29,10 @@ public:
     virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
     UFUNCTION(BlueprintCallable)
-        void ShowBone();
+    FName ShowBone();
+
+    UPROPERTY(BlueprintReadWrite)
+    bool Run = 0;
 
 private:
     APlayerController* MyController;

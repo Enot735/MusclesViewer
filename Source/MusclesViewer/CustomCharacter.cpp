@@ -39,8 +39,9 @@ void ACustomCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 }
 
 //Called to get Bone Name and Location
-void ACustomCharacter::ShowBone() {
+FName ACustomCharacter::ShowBone() {
     FHitResult Hit;
     MyController->GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery2, true, Hit);
     UE_LOG(LogTemp, Warning, TEXT("Controller: %s, ShowBone: %s"), *MyController->GetFName().ToString(), *Hit.BoneName.ToString());
+    return Hit.BoneName;
 }
