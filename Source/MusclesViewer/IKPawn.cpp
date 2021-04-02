@@ -40,7 +40,7 @@ void AIKPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-    if (GEngine) {
+    /*if (GEngine) {
         GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow,
             FString::Printf(TEXT("MC_Left_Hand: %s;"),
                 *MC_Left_Hand->GetComponentLocation().ToString()));
@@ -50,8 +50,7 @@ void AIKPawn::Tick(float DeltaTime)
         GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow,
             FString::Printf(TEXT("MC_Left_Shoulder: %s;"),
                 *MC_Left_Shoulder->GetComponentLocation().ToString()));
-
-    }
+    }*/
 }
 
 // Called to bind functionality to input
