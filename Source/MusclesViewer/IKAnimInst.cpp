@@ -2,22 +2,11 @@
 
 
 #include "IKAnimInst.h"
-/*
-void UIKAnimInst::BlueprintBeginPlay()
-{
-    Super:BlueprintBeginPlay();
-    UE_LOG(LogTemp, Warning, TEXT("Temp Log from BlueprintUpdateAnimation() DeltaTimeX: %f"), DeltaTimeX);
-}
-
-void UIKAnimInst::BlueprintUpdateAnimation(float DeltaTimeX)
-{
-    Super::BlueprintUpdateAnimation(DeltaTimeX);
-    UE_LOG(LogTemp, Warning, TEXT("Temp Log from BlueprintUpdateAnimation() DeltaTimeX: %f"), DeltaTimeX);
-}*/
 
 void UIKAnimInst::NativeInitializeAnimation()
 {
     Super::NativeInitializeAnimation();
+    return;
     UE_LOG(LogTemp, Warning, TEXT("Temp Log from NativeInitializeAnimation()"));
     Owner = Cast<AIKPawn>(TryGetPawnOwner());
 }
@@ -25,6 +14,7 @@ void UIKAnimInst::NativeInitializeAnimation()
 void UIKAnimInst::NativeUpdateAnimation(float DeltaSeconds)
 {
     Super::NativeUpdateAnimation(DeltaSeconds);
+    return;
     //UE_LOG(LogTemp, Warning, TEXT("Temp Log from NativeUpdateAnimation() DeltaSeconds: %f"), DeltaSeconds);
     if (!Owner) {
         UE_LOG(LogTemp, Warning, TEXT("NativeUpdateAnimation: Owner not found!"));
