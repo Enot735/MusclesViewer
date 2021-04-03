@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "MotionControllerComponent.h"
-
+#include "Camera/CameraComponent.h"
 #include "IKPawn.generated.h"
 
 UCLASS()
@@ -20,6 +20,13 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+public:	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
     UMotionControllerComponent *MC_Left_Hand;
     UMotionControllerComponent *MC_Left_Elbow;
     UMotionControllerComponent *MC_Left_Shoulder;
@@ -34,11 +41,5 @@ protected:
     UMotionControllerComponent *MC_Right_Knee;
     UMotionControllerComponent *MC_Right_Thigh;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+    UCameraComponent *Camera;
 };

@@ -32,6 +32,7 @@ void AIKPawn::BeginPlay()
     MC_Right_Knee = Cast<UMotionControllerComponent>(GetDefaultSubobjectByName(TEXT("MC_Right_Knee")));
     MC_Right_Thigh = Cast<UMotionControllerComponent>(GetDefaultSubobjectByName(TEXT("MC_Right_Thigh")));
 
+    Camera = Cast<UCameraComponent>(GetDefaultSubobjectByName(TEXT("Camera")));
     UE_LOG(LogTemp, Warning, TEXT("Component name: %s"), *MC_Left_Hand->GetName());
 }
 
