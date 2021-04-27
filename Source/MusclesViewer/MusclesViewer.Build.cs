@@ -8,7 +8,7 @@ public class MusclesViewer : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore"/*, "AnimGraph"*/, "HeadMountedDisplay"});
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "HTTP"});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
