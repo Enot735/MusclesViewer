@@ -8,7 +8,7 @@ AHTTPService::AHTTPService()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-    APIBaseUrl = TEXT("http://localhost:50691/gameservice.svc");
+    APIBaseUrl = TEXT("http://127.0.0.1:8080");
 }
 
 // Called when the game starts or when spawned
@@ -16,6 +16,7 @@ void AHTTPService::BeginPlay()
 {
 	Super::BeginPlay();
     Http = &FHttpModule::Get();
+    
     UE_LOG(LogTemp, Warning, TEXT("HttpServer started: %s"), *APIBaseUrl);
 }
 	
@@ -24,7 +25,8 @@ void AHTTPService::BeginPlay()
 void AHTTPService::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+    TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = GetRequest("/raw_data");
+    Send(Request);
 }
 
 TSharedRef<IHttpRequest, ESPMode::ThreadSafe> AHTTPService::RequestWithRoute(FString Subroute) {
@@ -59,6 +61,7 @@ bool AHTTPService::ResponseIsValid(FHttpResponsePtr Response, bool bWasSuccessfu
         return false;
     }
     if (EHttpResponseCodes::IsOk(Response->GetResponseCode())) {
+        UE_LOG(LogTemp, Warning, TEXT("Http Response content: %s"), *Response->GetContentAsString());
         return true;
     }
     else {

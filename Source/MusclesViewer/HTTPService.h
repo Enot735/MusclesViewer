@@ -11,6 +11,29 @@
 #include "Engine.h"
 #include "HTTPService.generated.h"
 
+UENUM(BlueprintType)
+enum class EJoints : uint8 {
+    LEFT_FOOT               UMETA(DisplayName = "LEFT_FOOT"),
+    RIGHT_FOOT              UMETA(DisplayName = "RIGHT_FOOT"),
+    LEFT_KNEE               UMETA(DisplayName = "LEFT_KNEE"),
+    RIGHT_KNEE              UMETA(DisplayName = "RIGHT_KNEE"),
+
+    LEFT_SHOULDER           UMETA(DisplayName = "LEFT_SHOULDER"),
+    RIGHT_SHOULDER          UMETA(DisplayName = "RIGHT_SHOULDER"),
+    LEFT_ELBOW              UMETA(DisplayName = "LEFT_ELBOW"),
+    RIGHT_ELBOW             UMETA(DisplayName = "RIGHT_ELBOW")
+};
+
+const TMap<EJoints, FString> Commands = {
+    { EJoints::LEFT_FOOT,               "setTransformLeftFoot" },
+    { EJoints::RIGHT_FOOT,              "setTransformRightFoot" },
+    { EJoints::LEFT_KNEE,               "setTransformLeftKnee" },
+    { EJoints::RIGHT_KNEE,              "setTransformRightKnee" },
+    { EJoints::LEFT_SHOULDER,           "setTransformLeftShoulder" },
+    { EJoints::RIGHT_SHOULDER,          "setTransformRightShoulder" },
+    { EJoints::LEFT_ELBOW,              "setTransformLeftElbow" },
+    { EJoints::RIGHT_ELBOW,             "setTransformRightElbow" }
+};
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class MUSCLESVIEWER_API AHTTPService : public AActor
