@@ -16,6 +16,12 @@ void AIKPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
+    for (auto h : TActorRange<AHTTPService>(GetWorld()))
+        HttpService = h;
+
+
+    HttpService->OnResponseReceived.AddDynamic(this, &AIKPawn::OnBotResponseReceived);
+
     MC_Left_Hand = Cast<UMotionControllerComponent>(GetDefaultSubobjectByName(TEXT("MC_Left_Hand")));
     MC_Left_Elbow = Cast<UMotionControllerComponent>(GetDefaultSubobjectByName(TEXT("MC_Left_Elbow")));
     MC_Left_Shoulder = Cast<UMotionControllerComponent>(GetDefaultSubobjectByName(TEXT("MC_Left_Shoulder")));
@@ -61,3 +67,26 @@ void AIKPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+void AIKPawn::OnBotResponseReceived(FString ResponseString) {
+    TSharedPtr<FJsonObject> JsonObject;
+    TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(ResponseString);
+    UE_LOG(LogTemp, Warning, TEXT("Try parse %s"), *ResponseString);
+
+    if (!FJsonSerializer::Deserialize(Reader, JsonObject)) {
+        UE_LOG(LogTemp, Warning, TEXT("Cant deserialize response!"));
+        return;
+    }
+        
+    TSharedPtr<FJsonObject> Response = JsonObject->GetObjectField("LEFT_ELBOW");
+    FString TextString = Response->GetStringField("text");
+//    TextString.RemoveFromEnd(".");
+    UE_LOG(LogTemp, Warning, TEXT("Bot answer is: %s"), *TextString);
+    /*Reader = TJsonReaderFactory<TCHAR>::Create(TextString);
+
+    if (!FJsonSerializer::Deserialize(Reader, JsonObject)) {
+        UE_LOG(LogTemp, Warning, TEXT("Cant deserialize text"));
+        return;
+    }
+
+    ParseJoints(JsonObject);
+}

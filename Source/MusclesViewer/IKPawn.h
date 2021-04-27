@@ -6,6 +6,10 @@
 #include "GameFramework/Pawn.h"
 #include "MotionControllerComponent.h"
 #include "Camera/CameraComponent.h"
+#include "HTTPService.h"
+#include "EngineUtils.h"
+#include "Serialization/JsonSerializer.h"
+#include "Dom/JsonObject.h"
 #include "IKPawn.generated.h"
 
 UCLASS()
@@ -17,6 +21,11 @@ public:
 	// Sets default values for this pawn's properties
 	AIKPawn();
 
+    UFUNCTION()
+    void OnBotResponseReceived(FString ResponseString);
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+    AHTTPService *HttpService;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
