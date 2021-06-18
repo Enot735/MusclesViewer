@@ -88,5 +88,5 @@ void AIKPawn::OnBotResponseReceived(FString ResponseString) {
         return;
     }
 
-    ParseJoints(JsonObject);
+    ParseJoints(JsonObject);*/
 }
