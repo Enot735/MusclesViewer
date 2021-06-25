@@ -24,11 +24,19 @@ public:
     UFUNCTION()
     void OnBotResponseReceived(FString ResponseString);
 
+    UFUNCTION()
+    FString createJson();
+
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     AHTTPService *HttpService;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+    void parseJoints(TSharedPtr<FJsonObject> JsonObject, TSharedRef<TJsonReader<TCHAR>> Reader);
+
+    void getLocationRotationOfComponent(TSharedPtr<FJsonObject> JsonObject, UMotionControllerComponent *Component);
 
 public:	
 	// Called every frame
@@ -36,6 +44,7 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+    
     UMotionControllerComponent *MC_Left_Hand;
     UMotionControllerComponent *MC_Left_Elbow;
     UMotionControllerComponent *MC_Left_Shoulder;

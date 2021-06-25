@@ -39,6 +39,7 @@ class MUSCLESVIEWER_API AHTTPService : public AActor
 {
 	GENERATED_BODY()
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FResponseReceivedDelegate, FString, ResponseString);
+
 public:	
 	// Sets default values for this actor's properties
 	AHTTPService();
@@ -47,6 +48,10 @@ public:
 
     UPROPERTY(BlueprintAssignable, BlueprintCallable)
     FResponseReceivedDelegate OnResponseReceived;
+    
+    TSharedRef<IHttpRequest, ESPMode::ThreadSafe> PostRequest(FString Subroute, FString ContentJsonString);
+    void Send(TSharedRef<IHttpRequest, ESPMode::ThreadSafe>& Request);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -55,10 +60,11 @@ protected:
     FString APIBaseUrl;
     TSharedRef<IHttpRequest, ESPMode::ThreadSafe> RequestWithRoute(FString Subroute);
     TSharedRef<IHttpRequest, ESPMode::ThreadSafe> GetRequest(FString Subroute);
-    TSharedRef<IHttpRequest, ESPMode::ThreadSafe> PostRequest(FString Subroute, FString ContentJsonString);
+    /*TSharedRef<IHttpRequest, ESPMode::ThreadSafe> PostRequest(FString Subroute, FString ContentJsonString);
 
-    void Send(TSharedRef<IHttpRequest, ESPMode::ThreadSafe>& Request);
+    void Send(TSharedRef<IHttpRequest, ESPMode::ThreadSafe>& Request);*/
     bool ResponseIsValid(FHttpResponsePtr Response, bool bWasSuccessful);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
