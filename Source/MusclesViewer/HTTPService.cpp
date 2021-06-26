@@ -9,7 +9,6 @@ AHTTPService::AHTTPService()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
     APIBaseUrl = TEXT("http://127.0.0.1:8080");
-    //APIBaseUrl = TEXT("http://localhost:8000");
  
 }
 

@@ -18,7 +18,7 @@ void AIKPawn::BeginPlay()
     for (auto h : TActorRange<AHTTPService>(GetWorld()))
         HttpService = h;
 
-    HttpService->OnResponseReceived.AddDynamic(this, &AIKPawn::OnBotResponseReceived);
+    HttpService->OnResponseReceived.AddDynamic(this, &AIKPawn::OnServerResponseReceived);
 
     MC_Left_Hand = Cast<UMotionControllerComponent>(GetDefaultSubobjectByName(TEXT("MC_Left_Hand")));
     MC_Left_Elbow = Cast<UMotionControllerComponent>(GetDefaultSubobjectByName(TEXT("MC_Left_Elbow")));
@@ -38,15 +38,12 @@ void AIKPawn::BeginPlay()
     
     Camera = Cast<UCameraComponent>(GetDefaultSubobjectByName(TEXT("Camera")));
     UE_LOG(LogTemp, Warning, TEXT("Component name: %s"), *MC_Left_Hand->GetName());
-
 }
 
-void AIKPawn::getLocationRotationOfComponent(TSharedPtr<FJsonObject> JsonObject, UMotionControllerComponent *Component) {
+void AIKPawn::CreateJsonByComponent(TSharedPtr<FJsonObject> JsonObject, UMotionControllerComponent *Component) {
 
     TArray<TSharedPtr<FJsonValue>> arrLocation;
     
-    UE_LOG(LogTemp, Warning, TEXT("Component name: %s"), Component->GetName());
-
     arrLocation.Add(MakeShareable(new FJsonValueNumber(Component->GetComponentLocation().X)));
     arrLocation.Add(MakeShareable(new FJsonValueNumber(Component->GetComponentLocation().Y)));
     arrLocation.Add(MakeShareable(new FJsonValueNumber(Component->GetComponentLocation().Z)));
@@ -62,18 +59,18 @@ void AIKPawn::getLocationRotationOfComponent(TSharedPtr<FJsonObject> JsonObject,
 
 }
 
-FString AIKPawn::createJson() {
+FString AIKPawn::CreateJson() {
 
     TSharedPtr<FJsonObject> JsonObjectBody = MakeShareable(new FJsonObject);
     TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
 
     // LEFT_ELBOW 
-    getLocationRotationOfComponent(JsonObject, MC_Left_Elbow);
+    CreateJsonByComponent(JsonObject, MC_Left_Elbow);
     JsonObjectBody->SetObjectField("LEFT_ELBOW", JsonObject);
     JsonObject = MakeShareable(new FJsonObject);
-
+    
     // LEFT_HAND
-    getLocationRotationOfComponent(JsonObject, MC_Left_Hand);
+    CreateJsonByComponent(JsonObject, MC_Left_Hand);
     JsonObjectBody->SetObjectField("LEFT_HAND", JsonObject);
     JsonObject = MakeShareable(new FJsonObject);
 
@@ -94,7 +91,7 @@ void AIKPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-    FString ContentJsonString = createJson();
+    FString ContentJsonString = CreateJson();
     
     TSharedRef<IHttpRequest, ESPMode::ThreadSafe> Request = HttpService->PostRequest("/raw_data", ContentJsonString);
     HttpService->Send(Request);
@@ -120,7 +117,7 @@ void AIKPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-void AIKPawn::parseJoints(TSharedPtr<FJsonObject> JsonObject, TSharedRef<TJsonReader<TCHAR>> Reader) {
+void AIKPawn::ParseJoints(TSharedPtr<FJsonObject> JsonObject, TSharedRef<TJsonReader<TCHAR>> Reader) {
    
     // распарсить по каждому датчику
 
@@ -138,7 +135,7 @@ void AIKPawn::parseJoints(TSharedPtr<FJsonObject> JsonObject, TSharedRef<TJsonRe
 
 }
 
-void AIKPawn::OnBotResponseReceived(FString ResponseString) {
+void AIKPawn::OnServerResponseReceived(FString ResponseString) {
     
     TSharedPtr<FJsonObject> JsonObject;
     
@@ -151,6 +148,6 @@ void AIKPawn::OnBotResponseReceived(FString ResponseString) {
         return;
     }
 
-    parseJoints(JsonObject, Reader);
+    ParseJoints(JsonObject, Reader);
 
 }

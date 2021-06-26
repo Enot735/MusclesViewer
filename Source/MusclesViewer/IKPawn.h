@@ -22,10 +22,10 @@ public:
 	AIKPawn();
 
     UFUNCTION()
-    void OnBotResponseReceived(FString ResponseString);
+    void OnServerResponseReceived(FString ResponseString);
 
     UFUNCTION()
-    FString createJson();
+    FString CreateJson();
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     AHTTPService *HttpService;
@@ -34,9 +34,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-    void parseJoints(TSharedPtr<FJsonObject> JsonObject, TSharedRef<TJsonReader<TCHAR>> Reader);
+    void ParseJoints(TSharedPtr<FJsonObject> JsonObject, TSharedRef<TJsonReader<TCHAR>> Reader);
 
-    void getLocationRotationOfComponent(TSharedPtr<FJsonObject> JsonObject, UMotionControllerComponent *Component);
+    void CreateJsonByComponent(TSharedPtr<FJsonObject> JsonObject, UMotionControllerComponent *Component);
 
 public:	
 	// Called every frame
