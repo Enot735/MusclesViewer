@@ -24,40 +24,48 @@ public:
     UFUNCTION()
     void OnServerResponseReceived(FString ResponseString);
 
-    UFUNCTION()
-    FString CreateJson();
-
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     AHTTPService *HttpService;
 
+    // Called every frame
+    virtual void Tick(float DeltaTime) override;
+
+    // Called to bind functionality to input
+    virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+    UMotionControllerComponent* Left_Hand;
+    UMotionControllerComponent* Left_Elbow;
+    UMotionControllerComponent* Left_Shoulder;
+    UMotionControllerComponent* Left_Foot;
+    UMotionControllerComponent* Left_Knee;
+    UMotionControllerComponent* Left_Thigh;
+
+    UMotionControllerComponent* Right_Hand;
+    UMotionControllerComponent* Right_Elbow;
+    UMotionControllerComponent* Right_Shoulder;
+    UMotionControllerComponent* Right_Foot;
+    UMotionControllerComponent* Right_Knee;
+    UMotionControllerComponent* Right_Thigh;
+
+    UCameraComponent* Camera;
+
 protected:
-	// Called when the game starts or when spawned
+
+    // Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-    void ParseJoints(TSharedPtr<FJsonObject> JsonObject, TSharedRef<TJsonReader<TCHAR>> Reader);
+    struct ComponentsFromJson {
+        FString NameOfComponent;
+        TArray<double> Location[3] = {}, Rotation[3] = {};
+    };
 
-    void CreateJsonByComponent(TSharedPtr<FJsonObject> JsonObject, UMotionControllerComponent *Component);
+    UFUNCTION()
+    FString CreateJson();
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+    // void ParseJsonByJoint(TSharedPtr<FJsonObject> JsonObject, FString NameJoint);
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-    
-    UMotionControllerComponent *MC_Left_Hand;
-    UMotionControllerComponent *MC_Left_Elbow;
-    UMotionControllerComponent *MC_Left_Shoulder;
-    UMotionControllerComponent *MC_Left_Foot;
-    UMotionControllerComponent *MC_Left_Knee;
-    UMotionControllerComponent *MC_Left_Thigh;
+    ComponentsFromJson ParseJoints(TSharedPtr<FJsonObject> JsonObject, TSharedRef<TJsonReader<TCHAR>> Reader, FString NameComponentJson);
 
-    UMotionControllerComponent *MC_Right_Hand;
-    UMotionControllerComponent *MC_Right_Elbow;
-    UMotionControllerComponent *MC_Right_Shoulder;
-    UMotionControllerComponent *MC_Right_Foot;
-    UMotionControllerComponent *MC_Right_Knee;
-    UMotionControllerComponent *MC_Right_Thigh;
+    void CreateJsonByComponent(TSharedPtr<FJsonObject> JsonObject, TSharedPtr<FJsonObject> JsonObjectBody, UMotionControllerComponent *Component, FString NameJsonObject);
 
-    UCameraComponent *Camera;
 };
