@@ -49,6 +49,8 @@ public:
 
     UCameraComponent* Camera;
 
+    APawn* Pawn;
+
 protected:
 
     // Called when the game starts or when spawned

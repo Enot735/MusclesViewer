@@ -8,18 +8,20 @@ AIKPawn::AIKPawn()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+    Pawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+
 }
 
 // Called when the game starts or when spawned
 void AIKPawn::BeginPlay()
 {
 	Super::BeginPlay();
-
+    
     for (auto h : TActorRange<AHTTPService>(GetWorld()))
         HttpService = h;
 
     HttpService->OnResponseReceived.AddDynamic(this, &AIKPawn::OnServerResponseReceived);
-
+    
     // Left arm
     Left_Hand = Cast<UMotionControllerComponent>(GetDefaultSubobjectByName(TEXT("MC_Left_Hand")));
     Left_Elbow = Cast<UMotionControllerComponent>(GetDefaultSubobjectByName(TEXT("MC_Left_Elbow")));
@@ -34,7 +36,7 @@ void AIKPawn::BeginPlay()
     Right_Hand = Cast<UMotionControllerComponent>(GetDefaultSubobjectByName(TEXT("MC_Right_Hand")));
     Right_Elbow = Cast<UMotionControllerComponent>(GetDefaultSubobjectByName(TEXT("MC_Right_Elbow")));
     Right_Shoulder = Cast<UMotionControllerComponent>(GetDefaultSubobjectByName(TEXT("MC_Right_Shoulder")));
-
+    
     // Right leg
     Right_Foot = Cast<UMotionControllerComponent>(GetDefaultSubobjectByName(TEXT("MC_Right_Foot")));
     Right_Knee = Cast<UMotionControllerComponent>(GetDefaultSubobjectByName(TEXT("MC_Right_Knee")));
@@ -42,7 +44,7 @@ void AIKPawn::BeginPlay()
     
     Camera = Cast<UCameraComponent>(GetDefaultSubobjectByName(TEXT("Camera")));
     UE_LOG(LogTemp, Warning, TEXT("Component name: %s"), *Left_Hand->GetName());
-    
+
 }
 
 // Called every frame
