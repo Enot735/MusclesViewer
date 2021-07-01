@@ -8,8 +8,6 @@ AIKPawn::AIKPawn()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-    Pawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-
 }
 
 // Called when the game starts or when spawned
@@ -41,9 +39,6 @@ void AIKPawn::BeginPlay()
     Right_Foot = Cast<UMotionControllerComponent>(GetDefaultSubobjectByName(TEXT("MC_Right_Foot")));
     Right_Knee = Cast<UMotionControllerComponent>(GetDefaultSubobjectByName(TEXT("MC_Right_Knee")));
     Right_Thigh = Cast<UMotionControllerComponent>(GetDefaultSubobjectByName(TEXT("MC_Right_Thigh")));
-    
-    Camera = Cast<UCameraComponent>(GetDefaultSubobjectByName(TEXT("Camera")));
-    UE_LOG(LogTemp, Warning, TEXT("Component name: %s"), *Left_Hand->GetName());
 
 }
 
