@@ -47,6 +47,9 @@ public:
     UMotionControllerComponent* Right_Knee;
     UMotionControllerComponent* Right_Thigh;
 
+    // Skeletal mesh
+    USkeletalMeshComponent* SkeletalMesh;
+
     // Left hand
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
         FVector TR_LeftHandWorldPosition;
@@ -148,6 +151,13 @@ protected:
 
     ComponentsFromJson ParseJoints(TSharedPtr<FJsonObject> JsonObject, TSharedRef<TJsonReader<TCHAR>> Reader, FString NameComponentJson);
 
-    void CreateJsonByComponent(TSharedPtr<FJsonObject> JsonObject, TSharedPtr<FJsonObject> JsonObjectBody, UMotionControllerComponent *Component, FString NameJsonObject);
+    void CreateJsonByComponent(
+        TSharedPtr<FJsonObject> JsonObject,
+        TSharedPtr<FJsonObject> JsonObjectBody,
+        UMotionControllerComponent *Component,
+        FString NameJsonObject,
+        FName SocketName,
+        FName BoneName
+    );
 
 };
